@@ -150,6 +150,7 @@ namespace CadastroPOO
             this.lstRegistros.Name = "lstRegistros";
             this.lstRegistros.Size = new System.Drawing.Size(464, 95);
             this.lstRegistros.TabIndex = 12;
+            this.lstRegistros.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstRegistros_MouseDoubleClick);
             // 
             // txtExibirSenha
             // 
@@ -223,6 +224,7 @@ namespace CadastroPOO
             this.btnAdicionar.TabIndex = 24;
             this.btnAdicionar.Text = "Adicionar";
             this.btnAdicionar.UseVisualStyleBackColor = true;
+            this.btnAdicionar.Click += new System.EventHandler(this.btnAdicionar_Click);
             // 
             // btnRemover
             // 
@@ -232,6 +234,7 @@ namespace CadastroPOO
             this.btnRemover.TabIndex = 25;
             this.btnRemover.Text = "Remover";
             this.btnRemover.UseVisualStyleBackColor = true;
+            this.btnRemover.Click += new System.EventHandler(this.btnRemover_Click);
             // 
             // Form1
             // 
