@@ -57,6 +57,24 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataBaseService.cs" />
+    <Compile Include="Vews\frmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vews\frmPrincipal.Designer.cs">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vews\frmUsuarioCadastro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vews\frmUsuarioCadastro.Designer.cs">
+      <DependentUpon>frmUsuarioCadastro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vews\frmUsuarioSelecao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vews\frmUsuarioSelecao.Designer.cs">
+      <DependentUpon>frmUsuarioSelecao.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -66,6 +84,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Vews\frmUsuarioCadastro.resx">
+      <DependentUpon>frmUsuarioCadastro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vews\frmUsuarioSelecao.resx">
+      <DependentUpon>frmUsuarioSelecao.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -79,8 +103,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Vews\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
