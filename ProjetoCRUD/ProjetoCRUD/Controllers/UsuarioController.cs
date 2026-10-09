@@ -145,6 +145,128 @@ namespace ProjetoCRUD.Controllers
             DataTable dataTable = _database.GetDataTable(command);
 
             //Iremos converter os dados SQL em um objeto Usuario
+
+            //Validar se tives dados retornados
+            //Ou seja validar a quantidade de linhas retornadas
+            if (dataTable.Rows.Count > 0)
+            {
+                //Mapear o objeto Usuario
+
+                //Instanciar o objeto Usuario
+                Usuario usuario = new Usuario();
+
+                //Vamos mapear o valor retornado de cada
+                //coluna para cada atributo, para isso
+                //é preciso ajustar os tipos de dados
+                //(int, string, bool....)
+                //Todo dado é preciso ser convertido
+                //de SQL apra C#
+                //OBS: Colocar o mesmo nome da coluna
+                //retornada pelo banco
+                usuario.Id      = (int)dataTable.Rows[0]["id"];
+                usuario.Nome    = (string)dataTable.Rows[0]["nome"];
+                usuario.CPF     = (string)dataTable.Rows[0]["cpf"];
+
+                //Retornar o objeto mapeado
+                return usuario;
+            }
+            else
+                return null; //retornar um objeto null
+        }
+
+        //Função privada de consulta que ira retornar 
+        //mais de um registro
+        //Ou seja retonaremos um UsuarioCollectoin
+        //A função sera privada pois sera usada
+        //apenas dentro desta classe
+        //a chamada dela sera por funções de apoio
+        //A Função irá receber o filtro 
+        //ou seja o campo e o falor a ser filtrado
+        //Portante recebera via parametro
+        //o filtro desejado
+        //caso o filtro esteja vazio
+        //significa q precisa retornar tudo
+        //então iremos definir que o padrao dele
+        //é vazio
+        private UsuarioColletion 
+            GetByFilters(string filtro = "")
+        {
+            //Criar o comando SELECT
+            string query = "SELECT * FROM usuario ";
+
+            //Vamos identificar se possui filtro
+            //Se sim vamos adiciona-lo a query
+            if (filtro != "")
+                query += "WHERE @filtro";
+
+            //por ultimo independene do filtro
+            //iremos adicionar um ordenador por nome
+            query += "ORDER BY nome";
+
+            //Criar o comando com a query
+            SqlCommand command = new SqlCommand(query);
+
+            //Definir os parametros
+            command.Parameters.AddWithValue("@filtro", filtro);
+
+            //Executar o comando e recuperar a tabela de dados
+            DataTable dataTable = _database.GetDataTable(command);
+
+            //Instanciar o objeto UsuarioColletion
+            UsuarioColletion usuarios = new UsuarioColletion();
+
+
+            //Vamos aplicar um loop para recuperar a informação
+            //linha a linha
+            //Ou seja vamos passar pode cada linha da tabela dedados
+            //adicionar em um instancia de usuario
+            //e mapear os dados convertendo de SQL para C#
+            for(int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                //Realizar o mapeamento a linha para o objeto
+                //semelhante ao reaizad no GetById
+
+                //Instanciar objto Usuario
+                Usuario usuario = new Usuario();
+
+                //Converter os dados da tabela
+                usuario.Id      = (int)dataTable.Rows[i]["id"];
+                usuario.Nome    = (string)dataTable.Rows[i]["nome"];
+                usuario.CPF     = (string)dataTable.Rows[i]["cpf"];
+
+                //Bata adicionar o objeto Usuario dentro da 
+                //coleção de Usuário
+                //usuariO = ao objeto (apenas um registro)
+                //usuriOS = a coleção de usuario (mais de um registro)
+                usuarios.Add(usuario);
+            }
+
+            //Retornando a cleção de usuariOS
+            return usuarios;
+        }
+
+        //Criar funções intermediaris publicas
+        //para chamar a função de consultrar 
+        //definindo o filtro, assim a tela 
+        //chma apenas a função intermediaria
+
+        //Função para retornar todos os dados
+        //ou seja sem filtro
+        public UsuarioColletion GetAll()
+        {
+            //Não vamos passar nada por parametro
+            //Semelhante ao SELECT * FROM usuario
+            return GetByFilters();
+        }
+
+        //Função para retornar todos os dados
+        //filtrando pelo nome
+        public UsuarioColletion GetByName(string value)
+        {
+            //Vamos passar o filtro like via parametro
+            //Semelhante ao:
+            //SELECT & FROM usuario WHERE nome LIKE '%valor%'
+            return GetByFilters("nome LIKE '%" + value + "%'");
         }
     }
 }
