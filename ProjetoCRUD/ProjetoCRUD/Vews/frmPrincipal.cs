@@ -16,5 +16,12 @@ namespace ProjetoCRUD.Views
         {
             InitializeComponent();
         }
+
+        private void usuáriosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Chamar a tela de selação de Usuário
+            frmUsuarioSelecao frm = new frmUsuarioSelecao();
+            frm.ShowDialog();
+        }
     }
 }
