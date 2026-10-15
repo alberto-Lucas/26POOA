@@ -188,8 +188,8 @@ namespace ProjetoCRUD.Controllers
         //significa q precisa retornar tudo
         //então iremos definir que o padrao dele
         //é vazio
-        private UsuarioColletion 
-            GetByFilters(string filtro = "")
+        private UsuarioColletion
+            GetByFilters(string campo = "", string filtro = "")
         {
             //Criar o comando SELECT
             string query = "SELECT * FROM usuario ";
@@ -197,7 +197,7 @@ namespace ProjetoCRUD.Controllers
             //Vamos identificar se possui filtro
             //Se sim vamos adiciona-lo a query
             if (filtro != "")
-                query += "WHERE @filtro";
+                query += "WHERE " + campo + " LIKE @filtro ";
 
             //por ultimo independene do filtro
             //iremos adicionar um ordenador por nome
@@ -206,8 +206,10 @@ namespace ProjetoCRUD.Controllers
             //Criar o comando com a query
             SqlCommand command = new SqlCommand(query);
 
-            //Definir os parametros
-            command.Parameters.AddWithValue("@filtro", filtro);
+            //Definimos os parametros
+            if (filtro != "")
+                command.Parameters.
+                    AddWithValue("@filtro", "%" + filtro + "%");
 
             //Executar o comando e recuperar a tabela de dados
             DataTable dataTable = _database.GetDataTable(command);
@@ -266,7 +268,7 @@ namespace ProjetoCRUD.Controllers
             //Vamos passar o filtro like via parametro
             //Semelhante ao:
             //SELECT & FROM usuario WHERE nome LIKE '%valor%'
-            return GetByFilters("nome LIKE '%" + value + "%'");
+            return GetByFilters("nome", value);
         }
     }
 }
