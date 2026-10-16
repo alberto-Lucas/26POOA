@@ -64,5 +64,17 @@ namespace ProjetoCRUD.Views
         {
             Pesquisar();
         }
+
+        private void btnAdicionar_Click(object sender, System.EventArgs e)
+        {
+            //Abrir a tela de cadastro
+            frmUsuarioCadastro frm = new frmUsuarioCadastro();
+            //Validar o retorno da tela de cadastro
+            //Se retorno OK ou Cancel
+            //OK - Cadastro realizado com sucesso
+            //Cancel - Usuario fechou a tela ou cancelou a rotina
+            if (frm.ShowDialog() == DialogResult.OK)
+                Pesquisar(); //Atualizar a grade
+        }
     }
 }
