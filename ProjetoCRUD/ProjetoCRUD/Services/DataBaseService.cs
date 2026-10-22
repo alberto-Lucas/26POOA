@@ -28,9 +28,19 @@ namespace ProjetoCRUD.Services
             //paa converte-la em texto coloca duas junto \\
             //OBS: Colocar igual aparece no SqlServer Manegment Studio
             connection.ConnectionString =
-                "Data Source=.\\SQLEXPRESS;" + //Host
+                "Data Source=sql.lucasalbertosistemas.com.br,14330;" + //Host
                 "Initial Catalog=ProjetoCRUD;" + //Nome Banco
                 "Integrated Security=SSPI;"; //Autenticação do Windows
+
+            connection.ConnectionString =
+                "Server=tcp:sql.lucasalbertosistemas.com.br,14330;" +
+                "Database=ProjetoCRUD;" +
+                "User Id=sa;" +
+                "Password=Abaca*1122;" +
+                "Encrypt=True;" +
+                "TrustServerCertificate=False;";
+
+
 
             //Abrir a conexão com o banco
             connection.Open();

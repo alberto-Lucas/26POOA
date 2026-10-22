@@ -93,7 +93,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvRegistros.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRegistros.Location = new System.Drawing.Point(12, 61);
+            this.dgvRegistros.MultiSelect = false;
             this.dgvRegistros.Name = "dgvRegistros";
+            this.dgvRegistros.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRegistros.Size = new System.Drawing.Size(634, 181);
             this.dgvRegistros.TabIndex = 7;
             // 
@@ -126,6 +128,7 @@
             this.btnVisualizar.TabIndex = 10;
             this.btnVisualizar.Text = "Visualizar";
             this.btnVisualizar.UseVisualStyleBackColor = true;
+            this.btnVisualizar.Click += new System.EventHandler(this.btnVisualizar_Click);
             // 
             // btnExcluir
             // 
@@ -136,6 +139,7 @@
             this.btnExcluir.TabIndex = 11;
             this.btnExcluir.Text = "Excluir";
             this.btnExcluir.UseVisualStyleBackColor = true;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // btnAdicionar
             // 
@@ -157,6 +161,7 @@
             this.btnAlterar.TabIndex = 12;
             this.btnAlterar.Text = "Alterar";
             this.btnAlterar.UseVisualStyleBackColor = true;
+            this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
             // 
             // frmUsuarioSelecao
             // 

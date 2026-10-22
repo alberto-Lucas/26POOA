@@ -68,13 +68,95 @@ namespace ProjetoCRUD.Views
         private void btnAdicionar_Click(object sender, System.EventArgs e)
         {
             //Abrir a tela de cadastro
-            frmUsuarioCadastro frm = new frmUsuarioCadastro();
+            frmUsuarioCadastro frm = new frmUsuarioCadastro(0, null);
             //Validar o retorno da tela de cadastro
             //Se retorno OK ou Cancel
             //OK - Cadastro realizado com sucesso
             //Cancel - Usuario fechou a tela ou cancelou a rotina
             if (frm.ShowDialog() == DialogResult.OK)
                 Pesquisar(); //Atualizar a grade
+        }
+
+        //Função para identificar o registro selecionado
+        //na grade e recuperar essa informação
+        //transformando-o em objeto novamente
+        //Esssa rotina sera nescessario para as ações
+        //Excluir, Alterar e Visualizar
+        Usuario GetUsuarioGrade()
+        {
+            //Validar se possui um registro selecionado
+            if(dgvRegistros.SelectedRows.Count == 0)
+            {
+                //Notificar o usuario do sistema
+                MessageBox.Show("Nenhum registro selecionado.");
+                //Retornamos null
+                return null;
+            }
+            else
+            {
+                //Retornar o registro selecionado ja convertido
+                //em objeto usuario
+                return
+                    dgvRegistros.SelectedRows[0].
+                        DataBoundItem as Usuario;
+            }
+        }
+
+        //Método para realizar a exclusão do registro
+        void Excluir()
+        {
+            //Recuperar o registro
+            Usuario usuario = GetUsuarioGrade();
+
+            //Validar se o usuario é null
+            if (usuario == null)
+                return; //Aborta a execução
+
+            //Confirmação de exclusão
+            if(MessageBox.Show(
+                "Deseja realmente excluir o registro?",
+                "Confirmação", MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question, 
+                MessageBoxDefaultButton.Button2) 
+                    == DialogResult.Yes)
+            {
+                //Chamar o Exlcuir da camada de controle
+                //Confirmar o retorno da exclusão
+                if (usuarioController.Excluir(usuario.Id) > 0)
+                {
+                    MessageBox.Show("Registro excluido com sucesso.");
+                    //Atualizar a grade
+                    Pesquisar();
+                }
+                else
+                    MessageBox.Show("Não foi possível excluir o registro.");
+            }
+
+        }
+
+        private void btnExcluir_Click(object sender, System.EventArgs e)
+        {
+            Excluir();
+        }
+
+        private void btnAlterar_Click(object sender, System.EventArgs e)
+        {
+            //Abrir a tela de cadastro no modo alterar
+            frmUsuarioCadastro frm = 
+                new frmUsuarioCadastro(1, GetUsuarioGrade());
+
+            //Validar o retorno da tela de alteração
+            //Se foi Ok ou Cancel
+            if (frm.ShowDialog() == DialogResult.OK)
+                Pesquisar(); //Atualziar a grade
+        }
+
+        private void btnVisualizar_Click(object sender, System.EventArgs e)
+        {
+            //Abrir a tela de cadastro no modo visualizar
+            frmUsuarioCadastro frm =
+                new frmUsuarioCadastro(2, GetUsuarioGrade());
+            frm.ShowDialog();
         }
     }
 }

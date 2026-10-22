@@ -12,9 +12,75 @@ namespace ProjetoCRUD.Views
 
         //Criar a instanciar com a camada de controle
         UsuarioController usuarioController = new UsuarioController();
-        public frmUsuarioCadastro()
+
+        //Para reutilizar a tela para as rotinas de 
+        //Alterar e Visualizar
+        //Precisamos adicionar 2 parametros na chamada da tela
+        //um parametro para definir a ação
+        //0 = Cadastrar
+        //1 = Alterar
+        //2 = Visualizar
+        //Nosso segundo parametro ira receber o objeto 
+        //selecionado a ser carregado na tela
+
+        //Definir variaveis globais para salvar os
+        //dados do parametros
+        int acaoTela;
+        Usuario usuarioSelecionado;
+        public frmUsuarioCadastro(
+            int acao, Usuario usuario)
         {
             InitializeComponent();
+
+            //Carregar os parametros
+            acaoTela = acao;
+            usuarioSelecionado = usuario;
+
+            //Personaizar a tela de acordo com a acao
+            CarregarTela();
+        }
+
+        void CarregarTela()
+        {
+            //Validar a acao
+            if (acaoTela == 0)
+                this.Text = "Cadastrar Usuário";
+            else
+            {
+                //Carregar os dados do objeto para tela
+                CarregarDados();
+
+                if (acaoTela == 1)
+                    this.Text = "Alterar Usuário";
+                else
+                {
+                    this.Text = "Visualizar Usuário";
+                    //Como a ideia é só visualizar
+                    //Precisamos desabilitar os campos
+                    DesabilitarCampos();
+                }
+            }
+        }
+
+        //Método para carregar o objeto na tela
+        void CarregarDados()
+        {
+            //Mapear o objeto
+            txtCodigo.Text = usuarioSelecionado.Id.ToString();
+            txtNome.Text = usuarioSelecionado.Nome;
+            txtCPF.Text = usuarioSelecionado.CPF;
+        }
+
+        //Método para desabilitar os campos da tela
+        void DesabilitarCampos()
+        {
+            //Transformar os campos de etxto em somente leitura
+            txtNome.ReadOnly = true;
+            txtCPF.ReadOnly = true;
+
+            //Ocular os botão Salvar e Cancelar
+            btnSalvar.Visible = false;
+            btnCancelar.Visible = false;
         }
 
         //Criar o método salvar para realizar o cadastro
@@ -35,9 +101,28 @@ namespace ProjetoCRUD.Views
             //e validar o retorno
             //0 = Falha na execução
             //1 = Cadastro realizado com sucesso
-            if(usuarioController.Inserir(usuario) > 0)
+
+            //Vamos adicionar a opção de alterar
+            //Então faremos a validação
+            //para Inserir ou Alterar
+            //e para isso precisamos de uma variavel
+            //para armazenar o retorno
+            int retorno = 0;
+
+            if (acaoTela == 0)
+                retorno = usuarioController.Inserir(usuario);
+            else
             {
-                MessageBox.Show("Usuário cadastrado com sucesso!");
+                //Carregar o Codigo do usuaro no objeto
+                //pois sera usado no WHERE do UPDATE
+                usuario.Id = int.Parse(txtCodigo.Text);
+
+                retorno = usuarioController.Alterar(usuario);
+            }
+
+            if (retorno > 0)
+            {
+                MessageBox.Show("Usuário salvo com sucesso!");
 
                 //Retornar para a tela anterior
                 //que deu tudo certo 
@@ -48,7 +133,7 @@ namespace ProjetoCRUD.Views
             {
                 //Caso o retorno for 0 de falha
                 //Notificamos o usuario
-                MessageBox.Show("Falha ao realizar o cadastro.");
+                MessageBox.Show("Falha ao salvar o registro.");
 
                 //Awui não definimos nenhum retorno (ok ou cancel)
                 //Pois o usuario pode tentar novamente
