@@ -32,16 +32,6 @@ namespace ProjetoCRUD.Services
                 "Initial Catalog=ProjetoCRUD;" + //Nome Banco
                 "Integrated Security=SSPI;"; //Autenticação do Windows
 
-            connection.ConnectionString =
-                "Server=tcp:sql.lucasalbertosistemas.com.br,14330;" +
-                "Database=ProjetoCRUD;" +
-                "User Id=sa;" +
-                "Password=Abaca*1122;" +
-                "Encrypt=True;" +
-                "TrustServerCertificate=False;";
-
-
-
             //Abrir a conexão com o banco
             connection.Open();
 
